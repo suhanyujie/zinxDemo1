@@ -6,6 +6,6 @@ import (
 )
 
 func main() {
-	fmt.Println("123")
+	fmt.Println("server start...")
 	znet.NewServer("FirstZinx").Serve()
 }
