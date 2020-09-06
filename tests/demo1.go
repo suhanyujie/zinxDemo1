@@ -7,21 +7,23 @@ import (
 )
 
 func main() {
+
 	var doneChan chan bool
 	defer1()
 	for {
-		select{
+		select {
 		case val := <-doneChan:
 			log.Printf("%s\n", val)
 		default:
 			log.Printf("go on waiting\n")
-			time.Sleep(1*time.Second)
+			time.Sleep(1 * time.Second)
 		}
 	}
 }
+
 // go defer 先进后出，后进先出
 // 它们会以逆序执行（类似栈，即后进先出）
-func defer1()  {
+func defer1() {
 	go func() {
 		for i := 0; i < 4; i++ {
 			defer fmt.Println(i)
