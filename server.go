@@ -29,6 +29,18 @@ func (_this *UserRouter) DoingHandle(request ziface.IRequest) {
 	request.GetConnection().SendMsg(1, []byte(msg))
 }
 
+// 测试路由2
+type ExampleRoute1 struct {
+	znet.BaseRouter
+}
+
+func (_this *ExampleRoute1) DoingHandle(request ziface.IRequest) {
+	msg := request.GetData()
+	log.Printf("reveive data from client: %s.\n", string(msg))
+	// 获取消息
+	request.GetConnection().SendMsg(2, []byte("ExampleRoute1: "+string(msg)))
+}
+
 // after business handler
 func (_this *UserRouter) AfterHandle(request ziface.IRequest) {
 	msg := "this is AfterHandle\n"
@@ -39,6 +51,7 @@ func (_this *UserRouter) AfterHandle(request ziface.IRequest) {
 func main() {
 	fmt.Println("server start...")
 	server := znet.NewServer("FirstZinx")
-	server.AddRoute(&UserRouter{})
+	server.AddRoute(1, &UserRouter{})
+	server.AddRoute(2, &ExampleRoute1{})
 	server.Serve()
 }

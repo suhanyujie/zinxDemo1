@@ -20,7 +20,7 @@ func main() {
 	}
 	for {
 		// 调用 write 写数据
-		err = SendPackedData(&conn, 0, []byte("zinx v0.5.1 test packed message"))
+		err = SendPackedData(&conn, 2, []byte("zinx v0.5.1 test packed message"))
 		if err != nil {
 			log.Printf("client write data error: %s\n", err)
 			continue
@@ -55,7 +55,7 @@ func ReceiveNormalData(conn *net.Conn) error {
 // 发送封包消息，到服务端
 func SendPackedData(conn *net.Conn, msgId uint32, data []byte) error {
 	dp := znet.NewDataPacker()
-	binaryMsg, err := dp.Pack(znet.NewMessage(1, data))
+	binaryMsg, err := dp.Pack(znet.NewMessage(msgId, data))
 	if err != nil {
 		return err
 	}
