@@ -20,16 +20,16 @@ func main() {
 	}
 	for {
 		// 调用 write 写数据
-		err = SendPackedData(&conn, 2, []byte("zinx v0.5.1 test packed message"))
+		err = SendPackedData(&conn, 1, []byte("zinx v0.7 test packed message"))
 		if err != nil {
 			log.Printf("client write data error: %s\n", err)
+			time.Sleep(2 * time.Second)
 			continue
 		}
 		// 调用完 wirte 后，可以接着从连接中读取数据
 		err = ReceivePackedData(&conn)
 		if err != nil {
 			log.Printf("client read data error: %s\n", err)
-			continue
 		}
 		time.Sleep(2 * time.Second)
 	}
