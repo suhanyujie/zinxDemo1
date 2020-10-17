@@ -48,10 +48,22 @@ func (_this *UserRouter) AfterHandle(request ziface.IRequest) {
 	request.GetConnection().SendMsg(1, []byte(msg))
 }
 
+func OnStart(connection ziface.IConnection) {
+	log.Printf("server: call conn onStart. conn id is: %d", connection.GetConnId())
+}
+
+func OnStop(connection ziface.IConnection) {
+	log.Printf("server: call conn onStop. conn id is: %d", connection.GetConnId())
+}
+
 func main() {
 	fmt.Println("server start...")
+	// 实例化服务器
 	server := znet.NewServer("FirstZinx")
 	server.AddRoute(1, &UserRouter{})
 	server.AddRoute(2, &ExampleRoute1{})
+	// 注册连接开始、关闭时的 hook
+	server.SetOnConnStartFunc(OnStart)
+	server.SetOnConnStartFunc(OnStop)
 	server.Serve()
 }

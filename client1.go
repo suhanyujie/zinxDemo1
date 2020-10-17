@@ -13,7 +13,7 @@ func main() {
 	fmt.Println("client start ...")
 	time.Sleep(1 * time.Second)
 	// 连接远程服务器
-	conn, err := net.Dial("tcp", "127.0.0.1:3001")
+	conn, err := net.Dial("tcp", "127.0.0.1:3001") // 3001
 	if err != nil {
 		log.Printf("client start error: %s\n", err)
 		return
