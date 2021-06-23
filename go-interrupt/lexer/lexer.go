@@ -32,6 +32,7 @@ func (l *Lexer) readChar() {
 
 func (l *Lexer) NextToken() token.Token {
 	var tok token.Token
+	l.skipWhitespace()
 	switch l.ch {
 	case '=':
 		tok = token.NewToken(token.ASSIGN, l.ch)
@@ -56,6 +57,7 @@ func (l *Lexer) NextToken() token.Token {
 		// 如果是字母，则可能是标识符，也可能是关键字。
 		if isLetter(l.ch) {
 			tok.Literal = l.readIdentifier()
+			tok.Type = token.CheckIdent(tok.Literal)
 			return tok
 		} else {
 			tok = token.NewToken(token.ILLEGAL, l.ch)
@@ -66,16 +68,17 @@ func (l *Lexer) NextToken() token.Token {
 }
 
 func (l *Lexer) readIdentifier() string {
-	resultStr := ""
-	for {
-		if isLetter(l.ch) {
-			resultStr += string(l.ch)
-			l.readChar()
-		} else {
-			break
-		}
+	startPosition := l.position
+	for isLetter(l.ch) {
+		l.readChar()
 	}
-	return resultStr
+	return l.input[startPosition:l.position]
+}
+
+func (l *Lexer) skipWhitespace() {
+	if l.ch == ' ' || l.ch == '\n' || l.ch == '\t' || l.ch == '\r' {
+		l.readChar()
+	}
 }
 
 func isLetter(ch byte) bool {

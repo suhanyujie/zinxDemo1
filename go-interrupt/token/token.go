@@ -13,3 +13,10 @@ func NewToken(tokenType TokenType, ch byte) Token {
 		Literal: string(ch),
 	}
 }
+
+func CheckIdent(text string) TokenType {
+	if tokenType, ok := Keywords[text]; ok {
+		return tokenType
+	}
+	return IDENT
+}

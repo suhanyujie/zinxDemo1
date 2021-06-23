@@ -5,7 +5,7 @@ const (
 	EOF     = "EOF"
 
 	// IDENT 标识符
-	IDENT = ""
+	IDENT = "IDENT"
 	INT   = "int"
 
 	ASSIGN = "="
@@ -23,3 +23,9 @@ const (
 	FUNCTION = "FUNCTION"
 	LET      = "LET"
 )
+
+var Keywords = map[string]TokenType{
+	"fn":  FUNCTION,
+	"let": LET,
+	"int": INT,
+}

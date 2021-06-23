@@ -86,8 +86,13 @@ let result = add(five, ten);`
 		{token.EOF, ""},
 	}
 	l := New(input)
-	tok := l.NextToken()
-	fmt.Printf("%+v\n", tok)
+	for {
+		tok := l.NextToken()
+		fmt.Printf("%+v\n", tok)
+		if tok.Type == token.EOF {
+			break
+		}
+	}
 }
 
 func TestIsLetter1(t *testing.T) {
