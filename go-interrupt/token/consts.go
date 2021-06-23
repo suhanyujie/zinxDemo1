@@ -6,7 +6,7 @@ const (
 
 	// IDENT 标识符
 	IDENT = ""
-	INT   = ""
+	INT   = "int"
 
 	ASSIGN = "="
 	PLUS   = "+"
