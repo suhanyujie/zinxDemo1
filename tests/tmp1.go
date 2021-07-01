@@ -22,7 +22,28 @@ func main() {
 	// 测试 switch
 	//testSwitch()
 	// 切片和切片指针
-	sliceAndSlicePoint()
+	//sliceAndSlicePoint()
+
+	// 指针参数
+	testRefParam()
+}
+
+type Stu3 struct {
+	Name string
+	Age  int
+}
+
+func testRefParam() {
+	s1 := Stu3{
+		Name: "shuaifei",
+		Age:  21,
+	}
+	testRefParam1(&s1)
+	fmt.Printf("%+v", s1)
+}
+
+func testRefParam1(s1 *Stu3) {
+	(*s1).Age = 22
 }
 
 func IsLocalForum(needleName string) map[string]interface{} {
