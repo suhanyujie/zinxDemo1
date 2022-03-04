@@ -6,7 +6,7 @@ import (
 )
 
 // use a closed channel, what will happened? https://www.jianshu.com/p/e89dfebe2c4a
-
+// > 会发生 panic
 func main() {
 	whatHappened()
 }
