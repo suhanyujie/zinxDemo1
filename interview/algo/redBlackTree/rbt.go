@@ -16,18 +16,51 @@ package redBlackTree
 ## ref
 * 红黑树(一)之 原理和算法详细介绍  https://www.cnblogs.com/skywang12345/p/3245399.html
 
+
+## 关于旋转
+* 左旋中的“左”，意味着“被旋转的节点将变成一个左节点”。同理，右旋中的“右”，意味着“被旋转的节点将变成一个右节点”
 */
+
+const (
+	ColorRed = iota + 1
+	ColorBlack
+)
 
 type RBNode struct {
 	color               uint8
 	key                 string
+	data                []byte
 	left, right, parent *RBNode
 }
 
-type RBRoot struct {
+type RBTree struct {
 	node *RBNode
 }
 
+// NewNode 实例化一个节点
+func NewNode(key string, val []byte) *RBNode {
+	return &RBNode{
+		color:  ColorBlack,
+		key:    key,
+		data:   val,
+		left:   nil,
+		right:  nil,
+		parent: nil,
+	}
+}
+
+// NewRBTree 实例化一颗红黑树
+func NewRBTree(key string, val []byte) *RBTree {
+	node := NewNode(key, val)
+	return &RBTree{
+		node: node,
+	}
+}
+
+// Insert 节点的插入 todo
+func (tree *RBTree) Insert(key string, val []byte) {
+
+}
 func test() {
 
 }
