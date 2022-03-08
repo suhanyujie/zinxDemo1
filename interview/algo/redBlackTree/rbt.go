@@ -15,6 +15,7 @@ package redBlackTree
 
 ## ref
 * 红黑树(一)之 原理和算法详细介绍  https://www.cnblogs.com/skywang12345/p/3245399.html
+* go 实现红黑树 https://www.jianshu.com/p/0319d7781814
 
 
 ## 关于旋转
@@ -28,17 +29,18 @@ const (
 
 type RBNode struct {
 	color               uint8
-	key                 string
-	data                []byte
+	key, data           interface{}
 	left, right, parent *RBNode
 }
 
 type RBTree struct {
-	node *RBNode
+	rootNode *RBNode
+	len      uint32
+	cmp      func(a, b interface{}) bool
 }
 
 // NewNode 实例化一个节点
-func NewNode(key string, val []byte) *RBNode {
+func NewNode(key, val interface{}) *RBNode {
 	return &RBNode{
 		color:  ColorBlack,
 		key:    key,
@@ -50,17 +52,17 @@ func NewNode(key string, val []byte) *RBNode {
 }
 
 // NewRBTree 实例化一颗红黑树
-func NewRBTree(key string, val []byte) *RBTree {
-	node := NewNode(key, val)
+func NewRBTree(cmpFunc func(a, b interface{}) bool) *RBTree {
 	return &RBTree{
-		node: node,
+		cmp: cmpFunc,
 	}
 }
 
 // Insert 节点的插入 todo
-func (tree *RBTree) Insert(key string, val []byte) {
+func (tree *RBTree) Insert(key, val interface{}) {
 
 }
-func test() {
 
+func isRed(node *RBNode) bool {
+	return node != nil && node.color == ColorRed
 }
