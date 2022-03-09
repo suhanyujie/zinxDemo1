@@ -36,33 +36,37 @@ type RBNode struct {
 type RBTree struct {
 	rootNode *RBNode
 	len      uint32
-	cmp      func(a, b interface{}) bool
-}
-
-// NewNode 实例化一个节点
-func NewNode(key, val interface{}) *RBNode {
-	return &RBNode{
-		color:  ColorBlack,
-		key:    key,
-		data:   val,
-		left:   nil,
-		right:  nil,
-		parent: nil,
-	}
+	// 比较函数。相等返回0，小于返回负数，大于返回正数。参考：https://studygolang.com/articles/30575
+	cmp func(a, b interface{}) int
 }
 
 // NewRBTree 实例化一颗红黑树
-func NewRBTree(cmpFunc func(a, b interface{}) bool) *RBTree {
+func NewRBTree(cmpFunc func(a, b interface{}) int) *RBTree {
 	return &RBTree{
 		cmp: cmpFunc,
 	}
 }
 
-// Insert 节点的插入 todo
-func (tree *RBTree) Insert(key, val interface{}) {
-
+// NewRBNode 实例化一个节点
+func NewRBNode(key, value interface{}) *RBNode {
+	return &RBNode{
+		color: ColorRed,
+		key:   key,
+		data:  value,
+	}
 }
 
 func isRed(node *RBNode) bool {
 	return node != nil && node.color == ColorRed
+}
+
+// Insert 节点的插入 todo
+func (tree *RBTree) Insert(key, val interface{}) {
+	newNode := NewRBNode(key, val)
+	if tree.rootNode == nil {
+		newNode.color = ColorBlack
+		tree.rootNode = newNode
+		tree.len += 1
+		return
+	}
 }
