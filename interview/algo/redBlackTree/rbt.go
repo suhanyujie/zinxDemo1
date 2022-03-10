@@ -69,4 +69,21 @@ func (tree *RBTree) Insert(key, val interface{}) {
 		tree.len += 1
 		return
 	}
+	cur := tree.rootNode
+	for cur != nil {
+		cmpRes := tree.cmp(key, cur.key)
+		if cmpRes > 0 {
+			if cur.right == nil {
+				cur.right = newNode
+			} else {
+				cur = cur.right
+			}
+		} else if cmpRes < 0 {
+			if cur.left == nil {
+				cur.left = newNode
+			} else {
+				cur = cur.left
+			}
+		}
+	}
 }
