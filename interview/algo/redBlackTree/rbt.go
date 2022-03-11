@@ -1,5 +1,7 @@
 package redBlackTree
 
+import "fmt"
+
 // 红黑树的实现
 // 参考：https://www.cnblogs.com/qxcheng/p/15505415.html
 /*
@@ -72,13 +74,13 @@ func (tree *RBTree) Insert(key, val interface{}) {
 	cur := tree.rootNode
 	for cur != nil {
 		cmpRes := tree.cmp(key, cur.key)
-		if cmpRes > 0 {
+		if cmpRes >= 0 {
 			if cur.right == nil {
 				cur.right = newNode
 			} else {
 				cur = cur.right
 			}
-		} else if cmpRes < 0 {
+		} else {
 			if cur.left == nil {
 				cur.left = newNode
 			} else {
@@ -86,4 +88,18 @@ func (tree *RBTree) Insert(key, val interface{}) {
 			}
 		}
 	}
+}
+
+// Print 打印节点的所有子节点 todo
+func (node *RBNode) Print() {
+	if node == nil {
+		fmt.Println("node is nil")
+		return
+	}
+}
+
+// LeftRotate 左旋
+// 意味着旋转的（中心）节点在旋转后是左节点
+func LeftRotate(node *RBNode) {
+
 }
