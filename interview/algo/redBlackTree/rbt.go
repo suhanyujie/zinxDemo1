@@ -1,6 +1,9 @@
 package redBlackTree
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+)
 
 // 红黑树的实现
 // 参考：https://www.cnblogs.com/qxcheng/p/15505415.html
@@ -77,12 +80,14 @@ func (tree *RBTree) Insert(key, val interface{}) {
 		if cmpRes >= 0 {
 			if cur.right == nil {
 				cur.right = newNode
+				return
 			} else {
 				cur = cur.right
 			}
 		} else {
 			if cur.left == nil {
 				cur.left = newNode
+				return
 			} else {
 				cur = cur.left
 			}
@@ -90,12 +95,45 @@ func (tree *RBTree) Insert(key, val interface{}) {
 	}
 }
 
-// Print 打印节点的所有子节点 todo
-func (node *RBNode) Print() {
+// Print 打印节点的所有子节点
+// 暂且以中序遍历的方式打印
+func (node *RBNode) Print(fmtWhitespaceNum int) {
 	if node == nil {
-		fmt.Println("node is nil")
 		return
 	}
+	node.left.Print(fmtWhitespaceNum - 5)
+	ws := strings.Repeat(" ", fmtWhitespaceNum)
+	fmt.Printf("%s %s; ", ws, node)
+	node.right.Print(fmtWhitespaceNum - 5)
+}
+
+func (node *RBNode) PrintOne() {
+	if node == nil {
+		return
+	}
+	ws := strings.Repeat(" ", 3)
+	fmt.Printf("%s %s; ", ws, node)
+}
+
+func (node *RBNode) String() string {
+	return fmt.Sprintf("k: %s, v: %s\n", node.key, node.data)
+}
+
+// Search 查找
+func (tree *RBTree) Search(key interface{}) *RBNode {
+	curNode := tree.rootNode
+	for curNode != nil {
+		cmpRes := tree.cmp(key, curNode.key)
+		if cmpRes > 0 {
+			curNode = curNode.right
+		} else if cmpRes < 0 {
+			curNode = curNode.left
+		} else {
+			return curNode
+		}
+	}
+
+	return nil
 }
 
 // LeftRotate 左旋
