@@ -21,10 +21,13 @@ import (
 ## ref
 * 红黑树(一)之 原理和算法详细介绍  https://www.cnblogs.com/skywang12345/p/3245399.html
 * go 实现红黑树 https://www.jianshu.com/p/0319d7781814
+* 一个不错的 go 实现的 avl 树 https://blog.csdn.net/Jinhua_Wei/article/details/79595507
 
 
 ## 关于旋转
 * 左旋中的“左”，意味着“被旋转的节点将变成一个左节点”。同理，右旋中的“右”，意味着“被旋转的节点将变成一个右节点”
+* 旋转动画演示 https://blog.csdn.net/zhizhengguan/article/details/108953911
+
 */
 
 const (
@@ -95,6 +98,21 @@ func (tree *RBTree) Insert(key, val interface{}) {
 	}
 }
 
+// CalBalance 计算平衡因子
+func (node *RBNode) CalBalance() int {
+	if node == nil {
+		return 0
+	}
+	// 分别计算左子树的高度、右子树的高度
+	left := node.left.CalBalance() + 1
+	right := node.right.CalBalance() + 1
+	if left > right {
+		return left
+	} else {
+		return right
+	}
+}
+
 // Print 打印节点的所有子节点
 // 暂且以中序遍历的方式打印
 func (node *RBNode) Print(fmtWhitespaceNum int) {
@@ -136,8 +154,12 @@ func (tree *RBTree) Search(key interface{}) *RBNode {
 	return nil
 }
 
-// LeftRotate 左旋
+// LLRotate LL 型右旋
+// LL 表示新增一个节点到根节点的左子树（Left）的左子树（Left）导致失衡
 // 意味着旋转的（中心）节点在旋转后是左节点
-func LeftRotate(node *RBNode) {
-
+func (n *RBNode) LLRotate(node *RBNode) {
+	oriNode := node
+	left := node.left
+	oriNode.left = left.right
+	left.right = oriNode
 }
