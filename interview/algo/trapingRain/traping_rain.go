@@ -16,16 +16,77 @@ package trapingRain
 输入：height = [4,2,0,3,2,5]
 输出：9
 
+## 分析
+
+## 总结
+
+
 ## ref
 * https://leetcode-cn.com/problems/trapping-rain-water/solution/jie-yu-shui-by-leetcode-solution-tuvc/
 
 */
 
-// todo
+// trap 采用双指针解法
 func trap(height []int) int {
 	if len(height) <= 1 {
 		return 0
 	}
+	i, j := 0, len(height)-1
+	leftMax, rightMax := height[i], height[j]
+	total := 0
+	for i < j {
+		if height[i] > leftMax {
+			leftMax = height[i]
+		}
+		if height[j] > rightMax {
+			rightMax = height[j]
+		}
+		if height[i] < height[j] {
+			total += leftMax - height[i]
+			i += 1
+		} else {
+			total += rightMax - height[j]
+			j -= 1
+		}
+	}
 
-	return 0
+	return total
+}
+
+// trapDp 动态规划解法
+func trapDp(height []int) int {
+	if len(height) < 1 {
+		return 0
+	}
+	length := len(height)
+	// 两个数组存储两边的 side max
+	leftMaxArr, rightMaxArr := make([]int, length), make([]int, length)
+	leftMax, rightMax := height[0], height[length-1]
+	for i, val := range height {
+		if val > leftMax {
+			leftMax = val
+		}
+		leftMaxArr[i] = leftMax
+	}
+	for j := length - 1; j >= 0; j-- {
+		if height[j] > rightMax {
+			rightMax = height[j]
+		}
+		rightMaxArr[j] = rightMax
+	}
+	total := 0
+	// 从左往右，leftMax[i]
+	for i := 0; i < length; i++ {
+		total += Min(leftMaxArr[i], rightMaxArr[i]) - height[i]
+	}
+
+	return total
+}
+
+func Min(a, b int) int {
+	if a < b {
+		return a
+	} else {
+		return b
+	}
 }
