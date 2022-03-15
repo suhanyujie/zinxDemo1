@@ -17,16 +17,25 @@ package trapingRain
 输出：9
 
 ## 分析
+讲真，做这种题我一般第一感觉是去暴力破解。但是看来官方题解后，发现解法还是有很多的，而且效率还很好。比较好的解法是双指针解法。但直接上双指针会难以理解。
+
+所以，还是先理解一下动态规划解法吧。
+
+先明确一下变量概念，从左往右，用 leftMax[i] 表示索引为 0~i 之间的最大元素值；类似的，从右往左，用 rightMax[i] 表示 i~len(height)-1 之间的元素最大值。
+
+通过两次循环遍历，得到每个下标所对应的 leftMax 和 rightMax，并以相同的下标为 key，存储到数组中备用，记为 leftMaxArr 和 rightMaxArr。
+
+然后从左往右再遍历一次，分别比较 leftMaxArr 和 rightMaxArr 在下标 i 处的值，取最小的那个，减去当前 i 处的 height[i] 值，就是下标 i 处所能存储的单位水量。将其累加，即可得到总的蓄水量。
 
 ## 总结
-
+动态规划理解起来虽然也不容易，但按照思路多走几次，逻辑上还是可理解的。双指针解法是在此基础上更进一步，只用两个变量存储 leftMax 和 rightMax，空间复杂度上提升为常数级，值得学习！
 
 ## ref
 * https://leetcode-cn.com/problems/trapping-rain-water/solution/jie-yu-shui-by-leetcode-solution-tuvc/
 
 */
 
-// trap 采用双指针解法
+// trap 双指针解法
 func trap(height []int) int {
 	if len(height) <= 1 {
 		return 0
