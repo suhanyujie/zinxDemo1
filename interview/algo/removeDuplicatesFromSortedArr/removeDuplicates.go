@@ -50,15 +50,19 @@ for (int i = 0; i < k; i++) {
 //   1, 2, 7, 8
 //
 func removeDuplicates(nums []int) int {
-	// 第一个数可以永远不用修改
-	i, j := 0, 1
 	lenNum := len(nums)
-	for ; i < lenNum; i += 1 {
+	if lenNum < 2 {
+		return lenNum
+	}
+	// 第一个数可以永远不用修改
+	slow, fast := 1, 1
+	for ; fast < lenNum; fast += 1 {
 		// i==0 时，不能和 j 位置交换
-		if nums[i] != nums[j] {
-			nums[j] = nums[i]
-			j += 1
+		if nums[fast] != nums[fast-1] {
+			nums[slow] = nums[fast]
+			slow += 1
 		}
 	}
-	return 0
+
+	return slow
 }
