@@ -23,9 +23,9 @@ import (
 ```go
 func findMinimumDays(durations []float32) int32
 ```
-
-
 */
+
+// 排序 + 贪心
 // 3    1.01<=ele<=3  maxOneDay=3
 // [1.01, 1.01, 1.01, 1.4, 2.4]
 func findMinimumDays(durations []float32) int32 {
@@ -39,7 +39,7 @@ func findMinimumDays(durations []float32) int32 {
 	lenNum := len(arr)
 	maxHour := float64(3)
 	dayNum := 0
-	for i < lenNum {
+	for i < (lenNum - 1) {
 		j = i + 1
 		curAdd := arr[i] + arr[j]
 		if curAdd <= maxHour {
@@ -47,11 +47,11 @@ func findMinimumDays(durations []float32) int32 {
 			dayNum += 1
 		} else {
 			i += 1
-			dayNum += 2
+			dayNum += 1
 		}
 	}
 
-	return int32(dayNum)
+	return int32(dayNum + 1)
 }
 
 func getPhoneNumbers(country string, phoneNumber string) string {
