@@ -1,6 +1,17 @@
 package redBlackTree
 
-import "testing"
+import (
+	"testing"
+	"time"
+)
+
+func TestTimeSince1(t *testing.T) {
+	endTime := time.Date(2022, 03, 19, 23, 59, 59, 0, time.Local)
+	//d1 := time.Until(t1)
+	d1 := endTime.Sub(time.Now())
+	days := int64(d1.Seconds()) / (3600 * 24)
+	t.Log(days)
+}
 
 func Cmp1(a, b interface{}) int {
 	aVal := a.(string)
