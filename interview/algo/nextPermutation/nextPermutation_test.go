@@ -14,5 +14,11 @@ func TestNextPermutation(t *testing.T) {
 		return
 	}
 
+	nums = []int{8, 5, 3, 2, 1}
+	nextPermutation(nums)
+	if !reflect.DeepEqual(nums, []int{1, 2, 3, 5, 8}) {
+		t.Error("error 02")
+		return
+	}
 	t.Log("--end--")
 }

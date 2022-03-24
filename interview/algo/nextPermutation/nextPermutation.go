@@ -57,7 +57,7 @@ func nextPermutation(nums []int) {
 	length := len(nums)
 	index := length - 1
 	// 从后向前，查找升序对（这样查找，是最靠近右侧的）
-	for ; index >= 0; index -= 1 {
+	for ; index >= 1; index -= 1 {
 		if nums[index-1] < nums[index] {
 			break
 		}
@@ -71,6 +71,9 @@ func nextPermutation(nums []int) {
 			}
 		}
 		nums[i], nums[j] = nums[j], nums[i]
+	} else {
+		// 如果找不到升序对，则 reverse nums。使下面的 left 指针从 0 开始
+		i = -1
 	}
 	// reverse (i,end]
 	right := length - 1
