@@ -35,3 +35,14 @@ func TestEqual1(t *testing.T) {
 	}
 	t.Log("--end--")
 }
+
+// 命名返回值，是否会自动初始化：并没有！
+func TestNamedReturn1(t *testing.T) {
+	res := NamedReturn1()
+	t.Log(res)
+}
+
+func NamedReturn1() (m1 map[string]interface{}) {
+	m1["name"] = 1
+	return
+}
