@@ -46,3 +46,17 @@ func NamedReturn1() (m1 map[string]interface{}) {
 	m1["name"] = 1
 	return
 }
+
+type Stt1 struct {
+	TableId int64 `json:"tableId"`
+}
+
+func TestUnmarshal1(t *testing.T) {
+	m1 := map[string]interface{}{
+		"tableId": "123",
+	}
+	data1 := Stt1{}
+	jsonBytes, _ := json.Marshal(m1)
+	json.Unmarshal(jsonBytes, &data1)
+	t.Log(data1.TableId)
+}
