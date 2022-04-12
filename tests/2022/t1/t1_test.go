@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"reflect"
 	"testing"
+	"time"
 )
 
 type Stu1 struct {
@@ -59,4 +60,21 @@ func TestUnmarshal1(t *testing.T) {
 	jsonBytes, _ := json.Marshal(m1)
 	json.Unmarshal(jsonBytes, &data1)
 	t.Log(data1.TableId)
+}
+
+// 测试：带有时间的结构体，序列化成 json后，再转为 map[string]interface{} 是否还能识别成时间？
+type Task1 struct {
+	Title     string
+	StartTime time.Time
+}
+
+func TestDe2Data(t *testing.T) {
+	t1 := Task1{
+		Title:     "t1",
+		StartTime: time.Now(),
+	}
+	jsonStrByte, _ := json.Marshal(t1)
+	map1 := make(map[string]interface{}, 3)
+	json.Unmarshal(jsonStrByte, &map1)
+	t.Log(map1)
 }
