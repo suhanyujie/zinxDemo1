@@ -78,3 +78,12 @@ func TestDe2Data(t *testing.T) {
 	json.Unmarshal(jsonStrByte, &map1)
 	t.Log(map1)
 }
+
+func TestIfJudge1(t *testing.T) {
+	var i interface{}
+	if i == nil {
+		t.Log("nil")
+	} else {
+		t.Log("not nil")
+	}
+}
