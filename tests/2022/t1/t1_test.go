@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"reflect"
+	"runtime"
 	"testing"
 	"time"
 )
@@ -86,4 +87,23 @@ func TestIfJudge1(t *testing.T) {
 	} else {
 		t.Log("not nil")
 	}
+}
+
+func TestDefer1(t *testing.T) {
+	res := defer1()
+	fmt.Println(res)
+}
+
+func defer1() (res string) {
+	defer func() {
+		fmt.Println("step-1")
+		res = "hello1"
+	}()
+	fmt.Println("step-2")
+	res = "hello2"
+	return
+}
+
+func TestCpuCoreNum1(t *testing.T) {
+	fmt.Println(runtime.NumCPU())
 }

@@ -135,3 +135,9 @@ func TestQ9(t *testing.T) {
 	}
 	fmt.Println("not nil")
 }
+
+func TestQ10(t *testing.T) {
+	m1 := make(map[string]int)
+	delete(m1, "h1")
+	fmt.Println(m1["h1"])
+}
