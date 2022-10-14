@@ -119,6 +119,7 @@ func TestQ8(t *testing.T) {
 	for k, v := range m1 {
 		fmt.Println(k, "->", *v)
 	}
+	// key 随机
 	//0 -> 3
 	//1 -> 3
 	//2 -> 3
