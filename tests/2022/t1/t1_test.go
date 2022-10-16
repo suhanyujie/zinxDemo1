@@ -3,12 +3,13 @@ package t1
 import (
 	"context"
 	"encoding/json"
-	"errors"
 	"fmt"
 	"reflect"
 	"runtime"
 	"testing"
 	"time"
+
+	"github.com/pkg/errors"
 )
 
 type Stu1 struct {
@@ -110,7 +111,7 @@ func TestCpuCoreNum1(t *testing.T) {
 	fmt.Println(runtime.NumCPU())
 }
 
-func TestCtx1(t *testing.T) {
+func TestCtxForCancel(t *testing.T) {
 	ctx := context.Background()
 	curCtx, cancel := context.WithCancel(ctx)
 	// eg: send message
@@ -126,12 +127,53 @@ func TestCtx1(t *testing.T) {
 	time.Sleep(3 * time.Second)
 }
 
-func sendMsg(ctx context.Context) {
-	time.Sleep(2 * time.Second)
-	if err := ctx.Err(); err != nil {
-		fmt.Println("[sendMsg] err1")
-		return
+func TestCtxForDone(t *testing.T) {
+	ctx := context.Background()
+	curCtx, cancel := context.WithCancel(ctx)
+	// eg: send message
+	go sendMsg(curCtx)
+	// eg: 查询用户
+	time.Sleep(1 * time.Second)
+	cancel()
+
+	time.Sleep(3 * time.Second)
+}
+
+const AppTimeFormat = "2006-01-02 15:04:05"
+
+func TestCtxForDeadline(t *testing.T) {
+	ctx := context.Background()
+	nowTime := time.Now()
+	fmt.Println(nowTime.Format(AppTimeFormat))
+	curCtx, cancel := context.WithDeadline(ctx, nowTime.Add(1*time.Second))
+	// eg: send message
+	go func() {
+		if err := sendMsg(curCtx); err != nil {
+			fmt.Println(err)
+		}
+	}()
+	// eg: 查询用户
+	time.Sleep(1 * time.Second)
+	cancel()
+
+	time.Sleep(3 * time.Second)
+}
+
+func sendMsg(ctx context.Context) error {
+	t1, isOk := ctx.Deadline()
+	if isOk {
+		fmt.Println(t1.Format(AppTimeFormat))
+	}
+	time.Sleep(1 * time.Second)
+	select {
+	case dv := <-ctx.Done():
+		fmt.Println("[sendMsg] done", dv)
+		return ctx.Err()
 	}
 	// eg: do send msg
 	time.Sleep(1 * time.Second)
+
+	fmt.Println("[sendMsg] ok")
+
+	return nil
 }
