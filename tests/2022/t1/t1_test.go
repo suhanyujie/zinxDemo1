@@ -1,7 +1,9 @@
 package t1
 
 import (
+	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"reflect"
 	"runtime"
@@ -106,4 +108,30 @@ func defer1() (res string) {
 
 func TestCpuCoreNum1(t *testing.T) {
 	fmt.Println(runtime.NumCPU())
+}
+
+func TestCtx1(t *testing.T) {
+	ctx := context.Background()
+	curCtx, cancel := context.WithCancel(ctx)
+	// eg: send message
+	go sendMsg(curCtx)
+	// eg: 查询用户
+	time.Sleep(1 * time.Second)
+	err := errors.New("test error")
+	if err != nil {
+		fmt.Println("[sendMsg] canceled")
+		cancel()
+		return
+	}
+	time.Sleep(3 * time.Second)
+}
+
+func sendMsg(ctx context.Context) {
+	time.Sleep(2 * time.Second)
+	if err := ctx.Err(); err != nil {
+		fmt.Println("[sendMsg] err1")
+		return
+	}
+	// eg: do send msg
+	time.Sleep(1 * time.Second)
 }
