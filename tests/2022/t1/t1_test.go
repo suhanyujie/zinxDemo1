@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"reflect"
 	"runtime"
+	"sync"
 	"testing"
 	"time"
 
@@ -176,4 +177,16 @@ func sendMsg(ctx context.Context) error {
 	fmt.Println("[sendMsg] ok")
 
 	return nil
+}
+
+// single flight test1
+func TestSf1(t *testing.T) {
+	//sf := singleflight.Group{}
+	//sf.Do()
+}
+
+func TestMutex1(t *testing.T) {
+	l := sync.Mutex{}
+	l.Lock()
+	defer l.Unlock()
 }
