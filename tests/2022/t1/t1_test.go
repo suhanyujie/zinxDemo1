@@ -4,6 +4,9 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"io"
+	"net/http"
+	"os"
 	"reflect"
 	"runtime"
 	"sync"
@@ -11,6 +14,7 @@ import (
 	"time"
 
 	"github.com/pkg/errors"
+	"golang.org/x/sync/errgroup"
 )
 
 type Stu1 struct {
@@ -189,4 +193,54 @@ func TestMutex1(t *testing.T) {
 	l := sync.Mutex{}
 	l.Lock()
 	defer l.Unlock()
+}
+
+// 测试 errGroup
+// https://draveness.me/golang/docs/part3-runtime/ch06-concurrency/golang-sync-primitives/#errgroup
+func TestErrGroup1(t *testing.T) {
+	eg := errgroup.Group{}
+	keywordArr := []string{"golang", "kotlin", "Rust"}
+	// https://www.baidu.com/s?wd=Rust
+	baseUrl := "https://www.baidu.com/s?wd=%s"
+	for _, kw := range keywordArr {
+		url := fmt.Sprintf(baseUrl, kw)
+		eg.Go(func() error {
+			resp, err := http.Get(url)
+			if err != nil {
+				return errors.Wrap(err, "get request err")
+			}
+			defer resp.Body.Close()
+			bodyStr, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return errors.Wrap(err, "get body err")
+			}
+			fmt.Println(string(bodyStr))
+			return nil
+		})
+	}
+	if err := eg.Wait(); err != nil {
+		fmt.Printf("[err] err: %v", err)
+		return
+	}
+	fmt.Println("--ok--")
+}
+
+func TestReadFile1(t *testing.T) {
+	fd, err := os.OpenFile("/home/suhanyu/tech/repo1/golang/zinxDemo1/tests/2022/t1/t2_test.go", os.O_RDWR, os.ModePerm)
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	box := make([]byte, 2)
+	pos, err := fd.Seek(3, io.SeekCurrent)
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	_, err = fd.ReadAt(box, pos)
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	fmt.Println(string(box))
 }
