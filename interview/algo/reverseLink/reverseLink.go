@@ -11,6 +11,19 @@ type ListNode struct {
  * @return ListNode类
  */
 func ReverseList(pHead *ListNode) *ListNode {
+	if pHead == nil || pHead.Next == nil {
+		return pHead
+	}
+	var newHead *ListNode
+	var oldHead *ListNode
+	oldHead = pHead
+	for pHead != nil {
+		next := pHead.Next
+
+	}
+}
+
+func ReverseList1(pHead *ListNode) *ListNode {
 	curNode := pHead
 	arr := make([]int, 0)
 	for curNode != nil {
