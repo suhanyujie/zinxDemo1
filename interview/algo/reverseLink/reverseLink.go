@@ -6,7 +6,7 @@ type ListNode struct {
 }
 
 /**
- *
+ * ReverseList 反转链表
  * @param pHead ListNode类
  * @return ListNode类
  */
@@ -15,12 +15,15 @@ func ReverseList(pHead *ListNode) *ListNode {
 		return pHead
 	}
 	var newHead *ListNode
-	var oldHead *ListNode
-	oldHead = pHead
-	for pHead != nil {
-		next := pHead.Next
-
+	var curNode *ListNode
+	curNode = pHead
+	for curNode != nil {
+		next := curNode.Next
+		curNode.Next = newHead
+		newHead = curNode
+		curNode = next
 	}
+	return curNode
 }
 
 func ReverseList1(pHead *ListNode) *ListNode {
